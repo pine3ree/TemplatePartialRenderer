@@ -5,9 +5,9 @@ alternative to standard php global functions.
 
 ## Usage inside a ProcessWire template:
 
-parameter 1 : string, template path relative to the site templates
-parameter 2 : optional array of variables to pass to the template
-parameter 3 : optional boolean, true => echo the result. Default to false => return the result
+- parameter 1 : string, template path relative to the site templates
+- parameter 2 : optional array of variables to pass to the template
+- parameter 3 : optional boolean, true => echo the result. Default to false => return the result
 
 ```
 $posts = $pages->find('template=blog-container, sort=-post_date');
