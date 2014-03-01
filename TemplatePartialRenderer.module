@@ -35,8 +35,26 @@ class TemplatePartialRenderer extends WireData implements Module
         $out = '';
 
         $tmpl = $event->arguments(0);
+        if (!is_string($tmpl)) {
+            if ($this->config->debug) {
+                throw new WireException('The template argument must be a string');
+            }
+
+            return;
+        };
+
         $data = $event->arguments(1) ? $event->arguments(1) : array();
-        $echo = $event->arguments(2) ? $event->arguments(2) : false;
+        if (!is_array($data)) {
+            if ($this->config->debug) {
+                throw new WireException(
+                    'The second argument must be an array of variables to inject into the template or NULL'
+                );
+            }
+
+            return;
+        };
+
+        $echo = (bool) $event->arguments(2);
 
         if (!in_array(substr($tmpl, -4), array('.php', '.tpl', '.inc', 'phtml'))) {
             $tmpl = $tmpl . '.php';
@@ -51,8 +69,15 @@ class TemplatePartialRenderer extends WireData implements Module
             include $file;
             $out = ob_get_contents();
             ob_end_clean();
+        } else {
+            if ($this->config->debug) {
+                throw new WireException(sprintf(
+                    'The requested template file "%s" was not found or is nt readable',
+                    $file
+                ));
+            }
 
-            echo $out;
+            return;
         }
 
         if ($echo) {
