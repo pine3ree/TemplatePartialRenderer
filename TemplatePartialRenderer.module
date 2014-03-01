@@ -26,18 +26,19 @@ class TemplatePartialRenderer extends WireData implements Module
 
     public function init()
     {
-        $this->addHook('Page::renderPartial', $this, 'renderPartial');
+        //$this->addHook('Page::renderPartial', $this, 'renderPartial');
+        $this->addHook('TemplateFile::renderPartial', $this, 'renderPartial');
     }
 
     /**
      *
      * @param HookEvent $event
-     * @return string
+     * @return string|NULL
      * @throws WireException
      */
     public function renderPartial($event)
     {
-        $event->return = '';
+        $event->return = null;
 
         $tmpl = $event->arguments(0);
         if (!is_string($tmpl)) {
@@ -49,6 +50,7 @@ class TemplatePartialRenderer extends WireData implements Module
         };
 
         $data = $event->arguments(1) ? $event->arguments(1) : array();
+
         if (!is_array($data)) {
             if ($this->config->debug) {
                 throw new WireException(
@@ -67,23 +69,32 @@ class TemplatePartialRenderer extends WireData implements Module
 
         $file = $this->config->paths->templates . $tmpl;
 
-        if (is_file($file)) {
-            extract($data);
+        $event->return = $this->output($file, $data)->render();
 
-            ob_start();
-            include $file;
-            $event->return = ob_get_contents();
-            ob_end_clean();
-
-        } else {
-            if ($this->config->debug) {
-                throw new WireException(sprintf(
-                    'The requested template file "%s" was not found or is nt readable',
-                    $file
-                ));
-            }
+        if ($echo) {
+            echo $event->return . "\n";
+            $event->return = null;
         }
     }
+
+    public function output($template, $data)
+    {
+		$output = new TemplateFile($template);
+
+		foreach($data as $key => $value) {
+            $output->set($key, $value);
+        }
+
+		$fuel = Wire::getFuel();
+        $output->set('wire', $fuel);
+		foreach($fuel as $key => $value) {
+            $output->set($key, $value);
+        }
+
+		$output->set('page', $this->page);
+
+		return $output;
+	}
 
     public function hasValidExtension($tmpl)
     {

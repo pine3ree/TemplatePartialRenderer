@@ -14,7 +14,7 @@ $posts = $pages->find('template=blog-container, sort=-post_date');
 
 //...
 
-$out = $page->renderPartial('partial/pagination', array(
+$out = $this->renderPartial('partial/pagination', array(
     'pageArray' => $posts,
 ));
 
@@ -26,7 +26,7 @@ echo $out;
 or directly echo the result adding a 3rd boolean parameter set to TRUE:
 
 ```
-$page->renderPartial('partial/pagination', array(
+$this->renderPartial('partial/pagination', array(
     'pageArray' => $posts,
 ), true);
 ```
@@ -66,7 +66,7 @@ variables, using a partial template instead of a global function call.
 You can also specify a different file extension.
 
 ```
-$page->renderPartial('partial/pagination.phtml', array(
+$this->renderPartial('partial/pagination.phtml', array(
     'pageArray' => $posts,
 ), true);
 ```
