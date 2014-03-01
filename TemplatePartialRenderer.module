@@ -23,7 +23,7 @@ class TemplatePartialRenderer extends WireData implements Module
             'singular' => true,
             'autoload' => true,
         );
-	}
+    }
 
     public function init()
     {
