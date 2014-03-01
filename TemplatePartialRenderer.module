@@ -30,9 +30,15 @@ class TemplatePartialRenderer extends WireData implements Module
         $this->addHook('Page::renderPartial', $this, 'renderPartial');
     }
 
+    /**
+     *
+     * @param HookEvent $event
+     * @return string
+     * @throws WireException
+     */
     public function renderPartial($event)
     {
-        $out = '';
+        $event->return = '';
 
         $tmpl = $event->arguments(0);
         if (!is_string($tmpl)) {
@@ -56,7 +62,7 @@ class TemplatePartialRenderer extends WireData implements Module
 
         $echo = (bool) $event->arguments(2);
 
-        if (!in_array(substr($tmpl, -4), array('.php', '.tpl', '.inc', 'phtml'))) {
+        if (!$this->hasValidExtension($tmpl)) {
             $tmpl = $tmpl . '.php';
         }
 
@@ -67,8 +73,9 @@ class TemplatePartialRenderer extends WireData implements Module
 
             ob_start();
             include $file;
-            $out = ob_get_contents();
+            $event->return = ob_get_contents();
             ob_end_clean();
+            
         } else {
             if ($this->config->debug) {
                 throw new WireException(sprintf(
@@ -76,15 +83,21 @@ class TemplatePartialRenderer extends WireData implements Module
                     $file
                 ));
             }
+        }
+    }
 
-            return;
+    public function hasValidExtension($tmpl)
+    {
+        $end = substr($tmpl, -4);
+        if (in_array($end, array('.php', '.tpl', '.inc'))) {
+            return true;
         }
 
-        if ($echo) {
-            echo $out;
-            return;
+        $end = substr($tmpl, -6);
+        if ($end === '.phtml') {
+            return true;
         }
 
-        return $out;
+        return false;
     }
 }
