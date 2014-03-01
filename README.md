@@ -31,7 +31,7 @@ in this example the template to be rendered is located in
 
 WEB_ROOT/site/templates/partial/pagination.php
 
-and could look like this:
+and could look like this (a foundation 5 styled pager):
 
 ```
 <?php
