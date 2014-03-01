@@ -3,7 +3,11 @@
 "Calls" and renders an external php template injecting variables as an
 alternative to standard php global functions.
 
-## Usage inside a processire template
+## Usage inside a ProcessWire template:
+
+parameter 1 : string, template path relative to the site templates
+parameter 2 : optional array of variables to pass to the template
+parameter 3 : optional boolean, true => echo the result. Default to false => return the result
 
 ```
 $posts = $pages->find('template=blog-container, sort=-post_date');
@@ -19,7 +23,7 @@ $out = $page->renderPartial('partial/pagination', array(
 echo $out;
 ```
 
-or directly echo the result:
+or directly echo the result adding a 3rd boolean parameter set to TRUE:
 
 ```
 $page->renderPartial('partial/pagination', array(
