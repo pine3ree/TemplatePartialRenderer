@@ -16,10 +16,10 @@ class TemplatePartialRenderer extends WireData implements Module
     public static function getModuleInfo()
     {
         return array(
-            'title' => 'Template Partial Renderer',
-            'version' => 100,
-            'summary' => 'Render a partial injecting variables through an array',
-            'href' => 'http://www.pine3ree.com',
+            'title'    => 'Template Partial Renderer',
+            'version'  => 100,
+            'summary'  => 'Render a partial php template injecting variables through an array',
+            'href'     => 'https://github.com/pine3ree/TemplatePartialRenderer',
             'singular' => true,
             'autoload' => true,
         );

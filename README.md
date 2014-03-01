@@ -1,6 +1,7 @@
 # Partial Renderer for Processwire 2.4
 
-> "Calls" and renders an external php template injecting variables
+"Calls" and renders an external php template injecting variables as an
+alternative to standard php global functions.
 
 ## Usage inside a processire template
 
@@ -22,7 +23,7 @@ $page->renderPartial('partial/pagination', array(
 ), true);
 ```
 
-in this example the rendered template is located in
+in this example the template to be rendered is located in
 
 WEB_ROOT/site/templates/partial/pagination.php
 
@@ -51,8 +52,20 @@ echo $pageArray->renderPager(array(
 ));
 ```
 
-You can specify a file extension. Valid extensions are: "php", "phtml", "inc", "tpl".
-If omitted, as in the example, it defaults to "php".
+In this example the same styled pagination can be used for different pageArray
+variables, using a partial template instead of a global function call.
+
+You can also specify a different file extension.
+
+```
+$page->renderPartial('partial/pagination.phtml', array(
+    'pageArray' => $posts,
+), true);
+```
+
+Accepted extensions are: "php", "phtml", "inc", "tpl".
+If omitted - as in the example - it defaults to "php".
+Templates are supposed to be standard php/html template files.
 
 ## Install
 
