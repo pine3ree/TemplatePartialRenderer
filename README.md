@@ -6,6 +6,10 @@ alternative to standard php global functions.
 ## Usage inside a processire template
 
 ```
+$posts = $pages->find('template=blog-container, sort=-post_date');
+
+//...
+
 $out = $page->renderPartial('partial/pagination', array(
     'pageArray' => $posts,
 ));
