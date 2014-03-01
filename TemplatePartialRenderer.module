@@ -15,7 +15,7 @@ class TemplatePartialRenderer extends WireData implements Module
 {
 	public static function getModuleInfo()
     {
-		return array(
+        return array(
 			'title' => 'Template Partial Renderer',
 			'version' => 100,
 			'summary' => 'Render a partial injecting variables through an array',
@@ -61,5 +61,5 @@ class TemplatePartialRenderer extends WireData implements Module
         }
 
         return $out;
-	}
+    }
 }
