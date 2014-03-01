@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * ProcessWire simple Partial Renderer
+ *
+ * Renders partial templates in a "framework" fashion
+ *
+ * TemplatePartialRenderer modulo for ProcessWire 2.4
+ * Copyright (C) 2010 by Maks Feltrin - pine3ree
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ *
+ */
+
+class TemplatePartialRenderer extends WireData implements Module
+{
+	public static function getModuleInfo()
+    {
+		return array(
+			'title' => 'Template Partial Renderer',
+			'version' => 100,
+			'summary' => 'Render a partial injecting variables through an array',
+			'href' => 'http://www.pine3ree.com',
+			'singular' => true,
+			'autoload' => true,
+        );
+	}
+
+	public function init()
+    {
+		$this->addHook('Page::renderPartial', $this, 'renderPartial');
+	}
+
+	public function renderPartial($event)
+    {
+        $out = '';
+
+        $tmpl = $event->arguments(0);
+        $data = $event->arguments(1) ? $event->arguments(1) : array();
+        $echo = $event->arguments(2) ? $event->arguments(2) : false;
+
+        if (!in_array(substr($tmpl, -4), array('.php', '.tpl', '.inc', 'phtml'))) {
+            $tmpl = $tmpl . '.php';
+        }
+
+        $file = $this->config->paths->templates . $tmpl;
+
+        if (is_file($file)) {
+            extract($data);
+
+            ob_start();
+            include $file;
+            $out = ob_get_contents();
+            ob_end_clean();
+
+            echo $out;
+        }
+
+        if ($echo) {
+            echo $out;
+            return;
+        }
+
+        return $out;
+	}
+}
