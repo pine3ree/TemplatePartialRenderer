@@ -13,24 +13,24 @@
 
 class TemplatePartialRenderer extends WireData implements Module
 {
-	public static function getModuleInfo()
+    public static function getModuleInfo()
     {
         return array(
-			'title' => 'Template Partial Renderer',
-			'version' => 100,
-			'summary' => 'Render a partial injecting variables through an array',
-			'href' => 'http://www.pine3ree.com',
-			'singular' => true,
-			'autoload' => true,
+            'title' => 'Template Partial Renderer',
+            'version' => 100,
+            'summary' => 'Render a partial injecting variables through an array',
+            'href' => 'http://www.pine3ree.com',
+            'singular' => true,
+            'autoload' => true,
         );
 	}
 
-	public function init()
+    public function init()
     {
-		$this->addHook('Page::renderPartial', $this, 'renderPartial');
-	}
+        $this->addHook('Page::renderPartial', $this, 'renderPartial');
+    }
 
-	public function renderPartial($event)
+    public function renderPartial($event)
     {
         $out = '';
 
