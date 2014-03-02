@@ -18,6 +18,7 @@ class TemplatePartialRenderer extends WireData implements Module
             'title'    => 'Template Partial Renderer',
             'version'  => 100,
             'summary'  => 'Render a partial php template injecting variables through an array',
+            'author'   => 'maks feltrin - pine3ree',
             'href'     => 'https://github.com/pine3ree/TemplatePartialRenderer',
             'singular' => true,
             'autoload' => true,
