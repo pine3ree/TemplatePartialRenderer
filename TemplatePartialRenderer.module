@@ -3,9 +3,9 @@
 /**
  * ProcessWire simple Partial Renderer
  *
- * Renders partial templates in a "framework" fashion
+ * Renders partial templates in a "mvc framework" fashion
  *
- * TemplatePartialRenderer modulo for ProcessWire 2.4
+ * TemplatePartialRenderer module for ProcessWire 2.4
  * Copyright (C) 2014 by Maks Feltrin - pine3ree
  *
  */
