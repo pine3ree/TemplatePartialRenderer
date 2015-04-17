@@ -1,4 +1,4 @@
-# Partial Renderer for Processwire 2.4
+# Partial Renderer for Processwire 2.5
 
 "Calls" and renders an external php template injecting variables as an
 alternative to standard php global functions.

@@ -114,4 +114,20 @@ class TemplatePartialRenderer extends WireData implements Module
 
         return false;
     }
+
+    public function ___install()
+    {
+        if (version_compare(PHP_VERSION, '5.3.8', '<')) {
+            throw new WireException("This module requires PHP 5.3.8 or newer.");
+        }
+
+        $pwVersion = 100 * ProcessWire::versionMajor
+            + 10 * ProcessWire::versionMinor
+            + 1 * ProcessWire::versionRevision
+        ;
+
+        if ($pwVersion < 250) {
+            throw new WireException("This module requires ProcessWire 2.5.0 or newer.");
+        }
+    }
 }
