@@ -16,18 +16,22 @@ class TemplatePartialRenderer extends WireData implements Module
     {
         return array(
             'title'    => 'Template Partial Renderer',
-            'version'  => 100,
+            'version'  => 101,
             'summary'  => 'Render a partial php template injecting variables through an array',
             'author'   => 'maks feltrin - pine3ree',
             'href'     => 'https://github.com/pine3ree/TemplatePartialRenderer',
             'singular' => true,
-            'autoload' => true,
+            'autoload' => function () {
+                $page = wire('page');
+                return !($page instanceof Page && $page->template == 'admin');
+            },
         );
     }
 
     public function init()
     {
         $this->addHook('TemplateFile::renderPartial', $this, 'renderPartial');
+        $this->addHook('Page::renderPartial', $this, 'renderPartial');
     }
 
     /**
@@ -36,7 +40,7 @@ class TemplatePartialRenderer extends WireData implements Module
      * @return string|NULL
      * @throws WireException
      */
-    public function renderPartial($event)
+    public function renderPartial(HookEvent $event)
     {
         $event->return = null;
 
@@ -77,7 +81,7 @@ class TemplatePartialRenderer extends WireData implements Module
         }
     }
 
-    public function output($template, $data)
+    protected function output($template, $data)
     {
 		$output = new TemplateFile($template);
 
@@ -96,7 +100,7 @@ class TemplatePartialRenderer extends WireData implements Module
 		return $output;
 	}
 
-    public function hasValidExtension($tmpl)
+    protected function hasValidExtension($tmpl)
     {
         $end = substr($tmpl, -4);
         if (in_array($end, array('.php', '.tpl', '.inc'))) {
