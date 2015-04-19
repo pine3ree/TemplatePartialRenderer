@@ -87,7 +87,7 @@ class TemplatePartialRenderer extends WireData implements Module
         return htmlentities($string, $flags, $encoding, $double_encode);
     }
 
-        protected function output($template, $data)
+    protected function output($template, $data)
     {
 		$output = new TemplateFile($template);
 
