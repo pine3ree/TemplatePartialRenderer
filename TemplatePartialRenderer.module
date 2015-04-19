@@ -16,7 +16,7 @@ class TemplatePartialRenderer extends WireData implements Module
     {
         return array(
             'title'    => 'Template Partial Renderer',
-            'version'  => 101,
+            'version'  => 110,
             'summary'  => 'Render a partial php template injecting variables through an array',
             'author'   => 'maks feltrin - pine3ree',
             'href'     => 'https://github.com/pine3ree/TemplatePartialRenderer',
@@ -31,6 +31,7 @@ class TemplatePartialRenderer extends WireData implements Module
     public function init()
     {
         $this->addHook('TemplateFile::renderPartial', $this, 'renderPartial');
+        $this->addHook('TemplateFile::e', $this, 'e');
         $this->addHook('Page::renderPartial', $this, 'renderPartial');
     }
 
@@ -81,7 +82,12 @@ class TemplatePartialRenderer extends WireData implements Module
         }
     }
 
-    protected function output($template, $data)
+    public function e($string, $flags = ENT_QUOTES, $encoding = 'UTF-8', $double_encode = true)
+    {
+        return htmlentities($string, $flags, $encoding, $double_encode);
+    }
+
+        protected function output($template, $data)
     {
 		$output = new TemplateFile($template);
 
