@@ -31,7 +31,7 @@ class TemplatePartialRenderer extends WireData implements Module
     public function init()
     {
         $this->addHook('TemplateFile::renderPartial', $this, 'renderPartial');
-        $this->addHook('TemplateFile::e', $this, 'e');
+        $this->addHook('TemplateFile::e', $this, 'escapeHtml');
         $this->addHook('Page::renderPartial', $this, 'renderPartial');
     }
 
@@ -82,9 +82,14 @@ class TemplatePartialRenderer extends WireData implements Module
         }
     }
 
-    public function e($string, $flags = ENT_QUOTES, $encoding = 'UTF-8', $double_encode = true)
+    public function escapeHtml(HookEvent $event)
     {
-        return htmlentities($string, $flags, $encoding, $double_encode);
+        $string = (string) $event->arguments(0);
+        $flags = !is_null($event->arguments(1)) ? $event->arguments(1) : ENT_QUOTES;
+        $encoding = !is_null($event->arguments(2)) ? (string) $event->arguments(2) : 'UTF-8';
+        $double_encode = !is_null($event->arguments(3)) ? (bool) $event->arguments(3) : true;
+
+        $event->return = htmlentities($string, $flags, $encoding, $double_encode);
     }
 
     protected function output($template, $data)
